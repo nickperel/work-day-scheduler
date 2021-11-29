@@ -1,16 +1,3 @@
-{/* <div class="row time-block">
-        <p class="col-2 hour">
-          9AM
-        </p>
-        <textarea class="col-8 description">
-          
-        </textarea>
-        <button class="col-2 saveBtn">
-          <i class="fas fa-save"></i>
-        </button>
-</div> */}
-      console.log("hello world")
-        
 const timeTextArr = [
     "9AM",
     "10AM",
@@ -25,8 +12,6 @@ const timeTextArr = [
 
 const time = new Date();
 document.getElementById("currentDay").innerHTML = time.toDateString();
-
-
 
 const saveToLocalStorage = (event) => {
 
@@ -80,4 +65,18 @@ for (let i = 0; i < 9; i++) {
 
    const mainContainer = document.querySelector(".container");
    mainContainer.appendChild(timeContainer);
+
+   const currentTime = new Date();
+   const blockHour = i+9;
+   const currentHour = currentTime.getHours();
+        if (currentHour > blockHour) {
+          timeContainer.classList.add("past");
+        }
+        if (currentHour < blockHour) {
+          timeContainer.classList.add("future");
+        }
+        if (currentHour === blockHour) {
+          timeContainer.classList.remove(["past", "future"])
+          timeContainer.classList.add("present");
+        };
 }
