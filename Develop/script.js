@@ -23,17 +23,29 @@ const timeTextArr = [
     "5PM"
 ];
 
+const time = new Date();
+document.getElementById("currentDay").innerHTML = time.toDateString();
+
+
+
 const saveToLocalStorage = (event) => {
 
-    var timeRepresented = event.target.id;
+    var arrayPosition = event.target.id;
 
-    console.log(timeRepresented);
+    console.log(arrayPosition);
 
-    var targetTextArea = document.getElementById("text-"+timeRepresented)
+    var targetTextArea = document.getElementById("text-"+arrayPosition)
+    var textAreaValue = targetTextArea.value;
 
-    console.log(targetTextArea.value)
+    console.log(textAreaValue);
 
+  // try to get the item, but if it ends up being null, we included the or statement to then create an empty array so that it wouldn't return null
+  const localValues = JSON.parse(localStorage.getItem("initialLocal")) || [];
+  localValues[arrayPosition] = textAreaValue;
 
+  localStorage.setItem('initialLocal', JSON.stringify(localValues));
+
+  console.log(localValues);
 }
 
 for (let i = 0; i < 9; i++) {
@@ -46,11 +58,16 @@ for (let i = 0; i < 9; i++) {
     
       const taskText = document.createElement("textarea");
         taskText.className = "col-8 description" 
-        taskText.setAttribute('id', "text-"+(i+9))
-    
+        taskText.setAttribute('id', "text-"+(i))
+
+      const localValues = JSON.parse(localStorage.getItem("initialLocal")) || [];
+        if (localValues[i]) {
+          taskText.value = localValues[i];
+        }
+
       const saveBtn = document.createElement("button");
         saveBtn.className = "col-2 saveBtn";
-        saveBtn.setAttribute('id', i+9)
+        saveBtn.setAttribute('id', i)
         saveBtn.addEventListener("click", saveToLocalStorage)
 
       const saveIcon = document.createElement("i");
